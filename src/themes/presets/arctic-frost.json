@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "id": "arctic-frost",
+    "name": "Arctic Frost",
+    "category": "light",
+    "styleTag": "Frosted Glass",
+    "description": "Frosted glacier translucency with icy luminescence and crisp high-key contrast.",
+    "previewSwatches": ["#EFF4F9", "#FFFFFF", "#0284C7", "#111827"]
+  },
+  "colors": {
+    "bgBase": "#EFF4F9",
+    "bgSurface": "rgba(255, 255, 255, 0.85)",
+    "bgElevated": "rgba(235, 243, 250, 0.90)",
+    "bgOverlay": "rgba(239, 244, 249, 0.92)",
+    "bgCanvas": "#E2EAF2",
+    "checkerLight": "#FFFFFF",
+    "checkerDark": "#E2EAF2",
+    "textPrimary": "#111827",
+    "textSecondary": "#374151",
+    "textMuted": "#4B5563",
+    "textInverse": "#FFFFFF",
+    "borderSubtle": "rgba(148, 163, 184, 0.30)",
+    "borderStrong": "rgba(148, 163, 184, 0.50)",
+    "borderFocus": "#0284C7",
+    "accentPrimary": "#0284C7",
+    "accentHover": "#0369A1",
+    "accentMuted": "rgba(2, 132, 199, 0.14)",
+    "accentForeground": "#FFFFFF",
+    "success": "#059669",
+    "warning": "#D97706",
+    "danger": "#DC2626",
+    "info": "#0284C7"
+  },
+  "typography": {
+    "fontTitle": "\"Space Grotesk\", \"Open Sans\", sans-serif",
+    "fontHeading": "\"Plus Jakarta Sans\", \"Open Sans\", sans-serif",
+    "fontUi": "\"Open Sans\", system-ui, -apple-system, sans-serif",
+    "fontMono": "\"JetBrains Mono\", Menlo, Monaco, monospace",
+    "googleFontsUrl": "",
+    "titleTracking": "-0.025em",
+    "headingTracking": "-0.015em",
+    "headingTransform": "none",
+    "uiWeightNormal": "400",
+    "uiWeightMedium": "500",
+    "uiWeightBold": "700"
+  },
+  "geometry": {
+    "radiusApp": "16px",
+    "radiusPanel": "14px",
+    "radiusControl": "10px",
+    "radiusInput": "8px",
+    "radiusPill": "9999px",
+    "borderWidth": "1px",
+    "focusRingWidth": "2px"
+  },
+  "effects": {
+    "shadowPanel": "0 8px 30px rgba(0, 70, 150, 0.08)",
+    "shadowFloating": "0 16px 40px rgba(0, 70, 150, 0.14)",
+    "glassBlur": "18px",
+    "surfaceOpacity": 0.85,
+    "transitionDuration": "150ms",
+    "surfaceStyle": "glassmorphic"
+  }
+}

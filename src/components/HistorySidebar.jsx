@@ -1,5 +1,14 @@
 import React from 'react';
-import { Undo2, Redo2, Clock, History as HistoryIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  Undo2,
+  Redo2,
+  Clock,
+  ChevronLeft,
+  ChevronRight,
+  History as HistoryIcon,
+  Check,
+  RotateCcw,
+} from 'lucide-react';
 
 export default function HistorySidebar({
   history,
@@ -15,31 +24,31 @@ export default function HistorySidebar({
 
   if (isCollapsed) {
     return (
-      <aside className="w-8 bg-secondary border-r border-border flex flex-col items-center py-2 shrink-0 select-none">
+      <aside className="w-9 bg-surface border-r border-subtle flex flex-col items-center py-2.5 shrink-0 select-none z-20">
         <button
           type="button"
           onClick={onToggleCollapse}
-          className="p-1 rounded-sm text-txt-muted hover:text-txt hover:bg-surface transition-colors"
+          className="w-7 h-7 rounded-control text-txt-muted hover:text-txt hover:bg-elevated flex items-center justify-center transition-colors"
           title="Expand history timeline"
           aria-label="Expand history"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
-        <div className="mt-4 rotate-90 text-[11px] font-medium text-txt-muted tracking-wider uppercase flex items-center gap-1">
-          <HistoryIcon className="w-3 h-3" />
-          <span>History</span>
+        <div className="mt-6 rotate-90 text-[10px] font-mono font-bold text-txt-muted tracking-wider uppercase flex items-center gap-1.5 whitespace-nowrap">
+          <HistoryIcon className="w-3 h-3 text-accent -rotate-90" />
+          <span>Timeline ({history.length})</span>
         </div>
       </aside>
     );
   }
 
   return (
-    <aside className="w-44 lg:w-48 bg-secondary border-r border-border flex flex-col h-full shrink-0 select-none text-xs text-txt">
-      {/* Header with Undo & Redo buttons */}
-      <div className="h-9 px-2.5 border-b border-border flex items-center justify-between shrink-0 bg-secondary">
-        <div className="flex items-center gap-1.5 font-semibold text-[11px] tracking-wide uppercase text-txt-muted">
+    <aside className="w-52 lg:w-56 bg-surface border-r border-subtle flex flex-col h-full shrink-0 select-none text-xs text-txt z-20">
+      {/* Drawer Header */}
+      <div className="h-10 px-3 border-b border-subtle flex items-center justify-between shrink-0 bg-surface">
+        <div className="flex items-center gap-1.5 font-heading font-semibold text-xs text-txt">
           <Clock className="w-3.5 h-3.5 text-accent" />
-          <span>Timeline</span>
+          <span>History ({history.length})</span>
         </div>
 
         <div className="flex items-center gap-0.5">
@@ -47,7 +56,7 @@ export default function HistorySidebar({
             type="button"
             onClick={onUndo}
             disabled={!canUndo}
-            className="p-1 rounded-sm text-txt-muted hover:text-txt hover:bg-surface disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+            className="w-7 h-7 rounded-control text-txt-muted hover:text-txt hover:bg-elevated disabled:opacity-25 flex items-center justify-center transition-colors"
             title="Undo (Ctrl+Z)"
             aria-label="Undo"
           >
@@ -58,7 +67,7 @@ export default function HistorySidebar({
             type="button"
             onClick={onRedo}
             disabled={!canRedo}
-            className="p-1 rounded-sm text-txt-muted hover:text-txt hover:bg-surface disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
+            className="w-7 h-7 rounded-control text-txt-muted hover:text-txt hover:bg-elevated disabled:opacity-25 flex items-center justify-center transition-colors"
             title="Redo (Ctrl+Y)"
             aria-label="Redo"
           >
@@ -68,8 +77,8 @@ export default function HistorySidebar({
           <button
             type="button"
             onClick={onToggleCollapse}
-            className="p-1 rounded-sm text-txt-muted hover:text-txt hover:bg-surface transition-colors ml-1"
-            title="Collapse history sidebar"
+            className="w-7 h-7 rounded-control text-txt-muted hover:text-txt hover:bg-elevated flex items-center justify-center transition-colors ml-0.5"
+            title="Collapse history drawer"
             aria-label="Collapse history"
           >
             <ChevronLeft className="w-3.5 h-3.5" />
@@ -77,11 +86,11 @@ export default function HistorySidebar({
         </div>
       </div>
 
-      {/* History steps list */}
-      <div className="flex-1 overflow-y-auto p-1.5 space-y-1">
+      {/* Steps List */}
+      <div className="flex-1 overflow-y-auto p-2 space-y-1.5">
         {history.length === 0 ? (
-          <div className="p-3 text-center text-txt-muted text-[11px]">
-            No image loaded
+          <div className="p-4 text-center text-txt-muted text-[11px] leading-relaxed">
+            No transformations recorded yet
           </div>
         ) : (
           history.map((step, idx) => {
@@ -93,37 +102,50 @@ export default function HistorySidebar({
                 key={step.id || idx}
                 type="button"
                 onClick={() => onSelectStep(idx)}
-                className={`w-full text-left px-2 py-1.5 rounded-sm flex items-center gap-2 transition-colors ${
+                className={`w-full text-left p-2 rounded-panel border transition-all flex items-start gap-2 ${
                   isCurrent
-                    ? 'bg-accent/15 border border-accent text-accent font-medium'
+                    ? 'border-accent bg-accent/15 text-accent font-semibold shadow-xs ring-1 ring-accent'
                     : isFuture
-                    ? 'text-txt-muted hover:text-txt hover:bg-surface/50 opacity-60'
-                    : 'text-txt hover:bg-surface'
+                    ? 'border-subtle/50 bg-elevated/40 text-txt-muted opacity-50 hover:opacity-80 hover:bg-elevated'
+                    : 'border-subtle bg-elevated hover:bg-surface hover:border-strong text-txt'
                 }`}
-                title={isFuture ? `Redo to: ${step.label}` : `Restore: ${step.label}`}
+                title={isFuture ? `Redo forward to: ${step.label}` : `Restore step: ${step.label}`}
               >
+                {/* Step sequence index */}
                 <span
-                  className={`w-4 h-4 rounded-sm flex items-center justify-center font-mono text-[10px] shrink-0 ${
+                  className={`w-5 h-5 rounded-control flex items-center justify-center font-mono text-[10px] shrink-0 mt-0.5 ${
                     isCurrent
-                      ? 'bg-accent text-white font-bold'
-                      : 'bg-surface border border-border text-txt-muted'
+                      ? 'bg-accent text-accent-foreground font-bold'
+                      : 'bg-base border border-subtle text-txt-muted'
                   }`}
                 >
                   {idx + 1}
                 </span>
 
-                <div className="min-w-0 flex-1 truncate text-[11px]">
-                  {step.label}
+                <div className="min-w-0 flex-1">
+                  <div className="truncate text-xs font-heading font-medium leading-tight">
+                    {step.label}
+                  </div>
+                  {step.state && (
+                    <div className="text-[10px] font-mono text-txt-muted mt-0.5 flex items-center gap-1">
+                      <span>{step.state.pixelWidth}×{step.state.pixelHeight}</span>
+                      <span>•</span>
+                      <span>{step.state.format?.replace('image/', '').toUpperCase()}</span>
+                    </div>
+                  )}
                 </div>
+
+                {isCurrent && <Check className="w-3.5 h-3.5 text-accent shrink-0 mt-0.5" />}
               </button>
             );
           })
         )}
       </div>
 
-      {/* Footer shortcut helper */}
-      <div className="p-2 border-t border-border text-[10px] text-txt-muted/70 text-center">
-        Ctrl+Z to Undo • Ctrl+Y to Redo
+      {/* Drawer Footer */}
+      <div className="p-2.5 border-t border-subtle bg-surface text-[10px] text-txt-muted text-center font-mono">
+        <kbd className="px-1 py-0.5 bg-elevated rounded-control border border-subtle">Ctrl+Z</kbd> Undo •{' '}
+        <kbd className="px-1 py-0.5 bg-elevated rounded-control border border-subtle">Ctrl+Y</kbd> Redo
       </div>
     </aside>
   );

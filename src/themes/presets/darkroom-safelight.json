@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "id": "darkroom-safelight",
+    "name": "Darkroom Safelight",
+    "category": "dark",
+    "styleTag": "Studio Darkroom",
+    "description": "True OLED deep black with monochromatic amber-red optical safelight illumination.",
+    "previewSwatches": ["#050505", "#0E0A0A", "#FF2A2A", "#FFF0F0"]
+  },
+  "colors": {
+    "bgBase": "#050505",
+    "bgSurface": "#0E0A0A",
+    "bgElevated": "#181111",
+    "bgOverlay": "rgba(5, 5, 5, 0.92)",
+    "bgCanvas": "#000000",
+    "checkerLight": "#0E0A0A",
+    "checkerDark": "#050505",
+    "textPrimary": "#FFF0F0",
+    "textSecondary": "#FFB8B8",
+    "textMuted": "#FF8585",
+    "textInverse": "#050505",
+    "borderSubtle": "#441818",
+    "borderStrong": "#662222",
+    "borderFocus": "#FF2A2A",
+    "accentPrimary": "#FF2A2A",
+    "accentHover": "#E01818",
+    "accentMuted": "rgba(255, 42, 42, 0.20)",
+    "accentForeground": "#050505",
+    "success": "#FF5555",
+    "warning": "#FF8844",
+    "danger": "#FF0000",
+    "info": "#FF6666"
+  },
+  "typography": {
+    "fontTitle": "\"Space Grotesk\", \"Open Sans\", sans-serif",
+    "fontHeading": "\"Plus Jakarta Sans\", \"Open Sans\", sans-serif",
+    "fontUi": "\"Open Sans\", system-ui, -apple-system, sans-serif",
+    "fontMono": "\"JetBrains Mono\", Menlo, Monaco, monospace",
+    "googleFontsUrl": "",
+    "titleTracking": "-0.02em",
+    "headingTracking": "-0.01em",
+    "headingTransform": "none",
+    "uiWeightNormal": "400",
+    "uiWeightMedium": "500",
+    "uiWeightBold": "700"
+  },
+  "geometry": {
+    "radiusApp": "8px",
+    "radiusPanel": "6px",
+    "radiusControl": "4px",
+    "radiusInput": "4px",
+    "radiusPill": "9999px",
+    "borderWidth": "1px",
+    "focusRingWidth": "2px"
+  },
+  "effects": {
+    "shadowPanel": "0 4px 20px -2px rgba(255, 42, 42, 0.12)",
+    "shadowFloating": "0 12px 32px -4px rgba(255, 42, 42, 0.20)",
+    "glassBlur": "10px",
+    "surfaceOpacity": 0.94,
+    "transitionDuration": "150ms",
+    "surfaceStyle": "bordered"
+  }
+}

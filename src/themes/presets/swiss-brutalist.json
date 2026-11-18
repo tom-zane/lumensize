@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "id": "swiss-brutalist",
+    "name": "Swiss Brutalist",
+    "category": "high-contrast",
+    "styleTag": "Brutalist",
+    "description": "Razor-sharp 0px geometry, stark black borders, and high-impact Swiss typographic contrast.",
+    "previewSwatches": ["#FFFFFF", "#F0F0F0", "#FF0000", "#000000"]
+  },
+  "colors": {
+    "bgBase": "#FFFFFF",
+    "bgSurface": "#FFFFFF",
+    "bgElevated": "#F0F0F0",
+    "bgOverlay": "rgba(255, 255, 255, 0.95)",
+    "bgCanvas": "#E5E5E5",
+    "checkerLight": "#FFFFFF",
+    "checkerDark": "#D4D4D4",
+    "textPrimary": "#000000",
+    "textSecondary": "#262626",
+    "textMuted": "#4B5563",
+    "textInverse": "#FFFFFF",
+    "borderSubtle": "#000000",
+    "borderStrong": "#000000",
+    "borderFocus": "#FF0000",
+    "accentPrimary": "#FF0000",
+    "accentHover": "#CC0000",
+    "accentMuted": "rgba(255, 0, 0, 0.12)",
+    "accentForeground": "#FFFFFF",
+    "success": "#000000",
+    "warning": "#000000",
+    "danger": "#FF0000",
+    "info": "#000000"
+  },
+  "typography": {
+    "fontTitle": "\"Space Grotesk\", sans-serif",
+    "fontHeading": "\"Space Grotesk\", sans-serif",
+    "fontUi": "\"Open Sans\", system-ui, -apple-system, sans-serif",
+    "fontMono": "\"JetBrains Mono\", Menlo, Monaco, monospace",
+    "googleFontsUrl": "",
+    "titleTracking": "-0.04em",
+    "headingTracking": "-0.02em",
+    "headingTransform": "uppercase",
+    "uiWeightNormal": "500",
+    "uiWeightMedium": "700",
+    "uiWeightBold": "800"
+  },
+  "geometry": {
+    "radiusApp": "0px",
+    "radiusPanel": "0px",
+    "radiusControl": "0px",
+    "radiusInput": "0px",
+    "radiusPill": "0px",
+    "borderWidth": "2px",
+    "focusRingWidth": "3px"
+  },
+  "effects": {
+    "shadowPanel": "4px 4px 0px #000000",
+    "shadowFloating": "8px 8px 0px #000000",
+    "glassBlur": "0px",
+    "surfaceOpacity": 1.0,
+    "transitionDuration": "0ms",
+    "surfaceStyle": "brutalist"
+  }
+}

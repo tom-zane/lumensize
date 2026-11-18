@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "id": "academic-latex",
+    "name": "Academic LaTeX",
+    "category": "editorial",
+    "styleTag": "Editorial Typeset",
+    "description": "Scholarly Computer Modern typesetting on warm parchment with Oxford crimson accents.",
+    "previewSwatches": ["#FBF9F5", "#FFFFFF", "#8B1E26", "#111827"]
+  },
+  "colors": {
+    "bgBase": "#FBF9F5",
+    "bgSurface": "#FFFFFF",
+    "bgElevated": "#F3EFE6",
+    "bgOverlay": "rgba(251, 249, 245, 0.90)",
+    "bgCanvas": "#ECE7DA",
+    "checkerLight": "#FFFFFF",
+    "checkerDark": "#F3EFE6",
+    "textPrimary": "#111827",
+    "textSecondary": "#374151",
+    "textMuted": "#4B5563",
+    "textInverse": "#FFFFFF",
+    "borderSubtle": "#D5CEBD",
+    "borderStrong": "#AFA694",
+    "borderFocus": "#8B1E26",
+    "accentPrimary": "#8B1E26",
+    "accentHover": "#70161C",
+    "accentMuted": "rgba(139, 30, 38, 0.12)",
+    "accentForeground": "#FFFFFF",
+    "success": "#2A6B45",
+    "warning": "#B45309",
+    "danger": "#8B1E26",
+    "info": "#1E4B8B"
+  },
+  "typography": {
+    "fontTitle": "\"EB Garamond\", \"Times New Roman\", serif",
+    "fontHeading": "\"EB Garamond\", \"Times New Roman\", serif",
+    "fontUi": "\"Plus Jakarta Sans\", system-ui, sans-serif",
+    "fontMono": "\"JetBrains Mono\", monospace",
+    "googleFontsUrl": "https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap",
+    "titleTracking": "-0.01em",
+    "headingTracking": "0.0em",
+    "headingTransform": "none",
+    "uiWeightNormal": "400",
+    "uiWeightMedium": "500",
+    "uiWeightBold": "700"
+  },
+  "geometry": {
+    "radiusApp": "6px",
+    "radiusPanel": "4px",
+    "radiusControl": "3px",
+    "radiusInput": "3px",
+    "radiusPill": "9999px",
+    "borderWidth": "1px",
+    "focusRingWidth": "2px"
+  },
+  "effects": {
+    "shadowPanel": "0 2px 10px rgba(35, 31, 32, 0.06)",
+    "shadowFloating": "0 8px 24px rgba(35, 31, 32, 0.12)",
+    "glassBlur": "8px",
+    "surfaceOpacity": 0.98,
+    "transitionDuration": "150ms",
+    "surfaceStyle": "bordered"
+  }
+}

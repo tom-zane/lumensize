@@ -4,11 +4,11 @@
  * background margins fill, format conversion, and safe file padding.
  */
 
-import { renderPerspectiveWarp } from './perspectiveWarp';
+import { renderPerspectiveWarp } from './perspectiveWarp.js';
 
 export const SUPPORTED_FORMATS = {
-  WEBP: { id: 'image/webp', ext: 'webp', name: 'WebP', lossy: true, description: 'Lossy compression with alpha transparency support.' },
   JPEG: { id: 'image/jpeg', ext: 'jpg', name: 'JPEG', lossy: true, description: 'Adjustable lossy compression with background fill.' },
+  WEBP: { id: 'image/webp', ext: 'webp', name: 'WebP', lossy: true, description: 'Lossy compression with alpha transparency support.' },
   PNG: { id: 'image/png', ext: 'png', name: 'PNG', lossy: false, description: 'Lossless compression preserving transparency.' },
 };
 
@@ -153,10 +153,11 @@ export function renderToCanvas(sourceDrawable, targetWidth, targetHeight, format
   const width = Math.max(1, Math.round(targetWidth));
   const height = Math.max(1, Math.round(targetHeight));
 
+  const isJpeg = formatMime === 'image/jpeg';
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
-  const ctx = canvas.getContext('2d', { alpha: formatMime !== 'image/jpeg' });
+  const ctx = canvas.getContext('2d', { alpha: !isJpeg });
 
   if (!ctx) {
     throw new Error('Canvas 2D context could not be created.');
@@ -165,9 +166,13 @@ export function renderToCanvas(sourceDrawable, targetWidth, targetHeight, format
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
 
-  // Background fill: JPEG requires opaque background (defaults to white)
-  if (formatMime === 'image/jpeg' || fillColor !== 'transparent') {
-    ctx.fillStyle = (formatMime === 'image/jpeg' && fillColor === 'transparent') ? '#FFFFFF' : (fillColor || '#FFFFFF');
+  // Background fill: JPEG requires opaque background (enforce pure white #FFFFFF matte by default)
+  const effectiveFill = isJpeg
+    ? (!fillColor || fillColor === 'transparent' ? '#FFFFFF' : fillColor)
+    : fillColor;
+
+  if (isJpeg || effectiveFill !== 'transparent') {
+    ctx.fillStyle = effectiveFill || '#FFFFFF';
     ctx.fillRect(0, 0, width, height);
   } else {
     ctx.clearRect(0, 0, width, height);
@@ -199,13 +204,27 @@ export function renderToCanvas(sourceDrawable, targetWidth, targetHeight, format
 }
 
 /**
- * Converts a canvas to a Blob.
+ * Converts a canvas to a Blob with an alpha-channel guardrail for JPEG:
+ * enforces an opaque matte background fill (pure white #FFFFFF by default)
+ * prior to canvas.toBlob so transparent areas never render as solid black.
  */
-export function canvasToBlob(canvas, mimeType, quality = 0.85) {
+export function canvasToBlob(canvas, mimeType = 'image/jpeg', quality = 0.90, matteColor = '#FFFFFF') {
   return new Promise((resolve, reject) => {
     try {
       const clampedQuality = Math.min(1, Math.max(0.01, quality));
-      canvas.toBlob(
+
+      let exportCanvas = canvas;
+      if (mimeType === 'image/jpeg') {
+        exportCanvas = document.createElement('canvas');
+        exportCanvas.width = canvas.width;
+        exportCanvas.height = canvas.height;
+        const ctx = exportCanvas.getContext('2d');
+        ctx.fillStyle = (!matteColor || matteColor === 'transparent') ? '#FFFFFF' : matteColor;
+        ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+        ctx.drawImage(canvas, 0, 0);
+      }
+
+      exportCanvas.toBlob(
         (blob) => {
           if (blob) {
             resolve(blob);
@@ -223,18 +242,38 @@ export function canvasToBlob(canvas, mimeType, quality = 0.85) {
 }
 
 /**
+ * Converts a canvas to a data URL with an alpha-channel guardrail for JPEG:
+ * enforces an opaque matte background fill (pure white #FFFFFF by default)
+ * prior to canvas.toDataURL so transparent areas never render as solid black.
+ */
+export function canvasToDataURL(canvas, mimeType = 'image/jpeg', quality = 0.90, matteColor = '#FFFFFF') {
+  const clampedQuality = Math.min(1, Math.max(0.01, quality));
+  let exportCanvas = canvas;
+  if (mimeType === 'image/jpeg') {
+    exportCanvas = document.createElement('canvas');
+    exportCanvas.width = canvas.width;
+    exportCanvas.height = canvas.height;
+    const ctx = exportCanvas.getContext('2d');
+    ctx.fillStyle = (!matteColor || matteColor === 'transparent') ? '#FFFFFF' : matteColor;
+    ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+    ctx.drawImage(canvas, 0, 0);
+  }
+  return exportCanvas.toDataURL(mimeType, clampedQuality);
+}
+
+/**
  * Encodes an image with specified dimensions, quality, and background fill options.
  */
 export async function processImage(sourceDrawable, {
   width,
   height,
-  format,
-  quality,
+  format = 'image/jpeg',
+  quality = 0.90,
   fitMode = 'contain',
   fillColor = '#FFFFFF',
 }) {
   const canvas = renderToCanvas(sourceDrawable, width, height, format, { fitMode, fillColor });
-  const blob = await canvasToBlob(canvas, format, quality);
+  const blob = await canvasToBlob(canvas, format, quality, fillColor);
   const objectUrl = URL.createObjectURL(blob);
 
   return {

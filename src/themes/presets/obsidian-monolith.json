@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "id": "obsidian-monolith",
+    "name": "Obsidian Monolith",
+    "category": "dark",
+    "styleTag": "Borderless Tonal",
+    "description": "Borderless tonal dark workstation with pitch black foundations and deep charcoal depth.",
+    "previewSwatches": ["#08080A", "#121216", "#6366F1", "#F4F5F7"]
+  },
+  "colors": {
+    "bgBase": "#08080A",
+    "bgSurface": "#121216",
+    "bgElevated": "#1A1A22",
+    "bgOverlay": "rgba(8, 8, 10, 0.90)",
+    "bgCanvas": "#050507",
+    "checkerLight": "#121216",
+    "checkerDark": "#08080A",
+    "textPrimary": "#F4F5F7",
+    "textSecondary": "#CBD2DF",
+    "textMuted": "#98A2B3",
+    "textInverse": "#FFFFFF",
+    "borderSubtle": "transparent",
+    "borderStrong": "transparent",
+    "borderFocus": "#6366F1",
+    "accentPrimary": "#6366F1",
+    "accentHover": "#4F46E5",
+    "accentMuted": "rgba(99, 102, 241, 0.18)",
+    "accentForeground": "#FFFFFF",
+    "success": "#10B981",
+    "warning": "#F59E0B",
+    "danger": "#EF4444",
+    "info": "#6366F1"
+  },
+  "typography": {
+    "fontTitle": "\"Space Grotesk\", \"Open Sans\", sans-serif",
+    "fontHeading": "\"Plus Jakarta Sans\", \"Open Sans\", sans-serif",
+    "fontUi": "\"Open Sans\", system-ui, -apple-system, sans-serif",
+    "fontMono": "\"JetBrains Mono\", Menlo, Monaco, monospace",
+    "googleFontsUrl": "",
+    "titleTracking": "-0.025em",
+    "headingTracking": "-0.015em",
+    "headingTransform": "none",
+    "uiWeightNormal": "400",
+    "uiWeightMedium": "500",
+    "uiWeightBold": "700"
+  },
+  "geometry": {
+    "radiusApp": "12px",
+    "radiusPanel": "10px",
+    "radiusControl": "8px",
+    "radiusInput": "6px",
+    "radiusPill": "9999px",
+    "borderWidth": "0px",
+    "focusRingWidth": "2px"
+  },
+  "effects": {
+    "shadowPanel": "0 8px 32px -4px rgba(0, 0, 0, 0.70)",
+    "shadowFloating": "0 16px 48px -4px rgba(0, 0, 0, 0.85)",
+    "glassBlur": "12px",
+    "surfaceOpacity": 0.94,
+    "transitionDuration": "150ms",
+    "surfaceStyle": "borderless"
+  }
+}

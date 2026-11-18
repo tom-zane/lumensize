@@ -14,65 +14,31 @@ import {
 } from './utils/imageProcessor';
 import { pxToUnit, unitToPx, toBytes, formatBytes } from './utils/units';
 import { optimizeToTargetSize } from './utils/targetSizeOptimizer';
+import { generateSampleImage } from './utils/sampleImages';
 
 const SETTINGS_KEY = 'lumensize_settings_v4';
-const THEME_KEY = 'lumensize_theme_v4';
 
 const DEFAULT_SETTINGS = {
   defaultUnit: 'cm',
   defaultDpi: 72,
-  defaultFormat: 'image/webp',
-  defaultQuality: 0.85,
+  defaultFormat: 'image/jpeg',
+  defaultQuality: 0.90,
 };
 
-const ALL_THEME_IDS = [
-  'theme-warm-paper',
-  'theme-obsidian',
-  'theme-clean-studio',
-  'theme-nordic-slate',
-  'theme-editorial-sage',
-];
-
 export default function App() {
-  // Coordinated theme state
-  const [theme, setTheme] = useState(() => {
-    try {
-      const saved = localStorage.getItem(THEME_KEY);
-      if (saved) {
-        if (ALL_THEME_IDS.includes(saved)) return saved;
-        if (saved === 'dark') return 'theme-obsidian';
-        if (saved === 'light') return 'theme-warm-paper';
-      }
-    } catch (e) {
-      // ignore
-    }
-    return 'theme-obsidian';
-  });
-
-  useEffect(() => {
-    const root = document.documentElement;
-    ALL_THEME_IDS.forEach((id) => root.classList.remove(id));
-    root.classList.remove('dark', 'light');
-
-    root.classList.add(theme);
-    const isDark =
-      theme === 'theme-obsidian' ||
-      theme === 'theme-nordic-slate' ||
-      theme === 'theme-editorial-sage';
-    root.classList.add(isDark ? 'dark' : 'light');
-
-    try {
-      localStorage.setItem(THEME_KEY, theme);
-    } catch (e) {
-      // ignore
-    }
-  }, [theme]);
-
   // Settings state
   const [settings, setSettings] = useState(() => {
     try {
       const saved = localStorage.getItem(SETTINGS_KEY);
-      if (saved) return { ...DEFAULT_SETTINGS, ...JSON.parse(saved) };
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          ...DEFAULT_SETTINGS,
+          ...parsed,
+          defaultFormat: parsed.defaultFormat || DEFAULT_SETTINGS.defaultFormat,
+          defaultQuality: parsed.defaultQuality ?? DEFAULT_SETTINGS.defaultQuality,
+        };
+      }
     } catch (e) {
       // ignore
     }
@@ -109,9 +75,9 @@ export default function App() {
   const [fitMode, setFitMode] = useState('contain');
   const [fillColor, setFillColor] = useState('#FFFFFF');
 
-  // Format & Quality
-  const [format, setFormat] = useState(settings.defaultFormat);
-  const [quality, setQuality] = useState(settings.defaultQuality);
+  // Format & Quality (defaults to JPEG @ 90% quality)
+  const [format, setFormat] = useState(settings.defaultFormat || 'image/jpeg');
+  const [quality, setQuality] = useState(settings.defaultQuality ?? 0.90);
 
   // Preview & output
   const [transformedBase, setTransformedBase] = useState(null);
@@ -158,6 +124,7 @@ export default function App() {
     if (newSettings.defaultDpi) setDpi(newSettings.defaultDpi);
     if (newSettings.defaultUnit) setUnit(newSettings.defaultUnit);
     if (newSettings.defaultFormat) setFormat(newSettings.defaultFormat);
+    if (newSettings.defaultQuality !== undefined) setQuality(newSettings.defaultQuality);
   };
 
   const handleResetSettings = () => {
@@ -170,6 +137,7 @@ export default function App() {
     setDpi(DEFAULT_SETTINGS.defaultDpi);
     setUnit(DEFAULT_SETTINGS.defaultUnit);
     setFormat(DEFAULT_SETTINGS.defaultFormat);
+    setQuality(DEFAULT_SETTINGS.defaultQuality);
   };
 
   // -------------------------------------------------------------
@@ -393,10 +361,10 @@ export default function App() {
       setPixelHeight(origH);
       setAspectRatio(ratio);
       setLockAspectRatio(true);
-      setUnit(settings.defaultUnit);
-      setDpi(settings.defaultDpi);
-      setFormat(settings.defaultFormat);
-      setQuality(settings.defaultQuality);
+      setUnit(settings.defaultUnit || 'cm');
+      setDpi(settings.defaultDpi || 72);
+      setFormat(settings.defaultFormat || 'image/jpeg');
+      setQuality(settings.defaultQuality ?? 0.90);
       setFitMode('contain');
       setFillColor('#FFFFFF');
 
@@ -409,8 +377,8 @@ export default function App() {
       const initial = await processImage(canvas, {
         width: origW,
         height: origH,
-        format: settings.defaultFormat,
-        quality: settings.defaultQuality,
+        format: settings.defaultFormat || 'image/jpeg',
+        quality: settings.defaultQuality ?? 0.90,
         fitMode: 'contain',
         fillColor: '#FFFFFF',
       });
@@ -435,10 +403,10 @@ export default function App() {
         rotationAngle: 0,
         pixelWidth: origW,
         pixelHeight: origH,
-        unit: settings.defaultUnit,
-        dpi: settings.defaultDpi,
-        format: settings.defaultFormat,
-        quality: settings.defaultQuality,
+        unit: settings.defaultUnit || 'cm',
+        dpi: settings.defaultDpi || 72,
+        format: settings.defaultFormat || 'image/jpeg',
+        quality: settings.defaultQuality ?? 0.90,
         fitMode: 'contain',
         fillColor: '#FFFFFF',
       };
@@ -449,6 +417,42 @@ export default function App() {
       console.error(err);
     }
   };
+
+  // Instant sample image asset loader
+  const handleSelectSample = useCallback(
+    async (sampleId) => {
+      try {
+        setIsProcessing(true);
+        const file = await generateSampleImage(sampleId);
+        await handleLoadImage(file);
+      } catch (e) {
+        setIsProcessing(false);
+        console.error('Failed to generate sample asset:', e);
+      }
+    },
+    [handleLoadImage]
+  );
+
+  // Global clipboard paste listener (Ctrl+V anywhere in app)
+  useEffect(() => {
+    const handlePaste = (e) => {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement
+      ) {
+        return;
+      }
+      if (e.clipboardData && e.clipboardData.files && e.clipboardData.files.length > 0) {
+        const file = Array.from(e.clipboardData.files).find((f) => f.type.startsWith('image/'));
+        if (file) {
+          e.preventDefault();
+          handleLoadImage(file);
+        }
+      }
+    };
+    window.addEventListener('paste', handlePaste);
+    return () => window.removeEventListener('paste', handlePaste);
+  }, [handleLoadImage]);
 
   // -------------------------------------------------------------
   // CROP & PERSPECTIVE ACTIONS
@@ -670,6 +674,29 @@ export default function App() {
     setLockAspectRatio((prev) => !prev);
   };
 
+  const handleAspectRatioChange = (newRatio) => {
+    if (!newRatio || isNaN(newRatio) || newRatio <= 0) return;
+    setAspectRatio(newRatio);
+    setLockAspectRatio(true);
+
+    const newH = Math.max(1, Math.round(pixelWidth / newRatio));
+    setPixelHeight(newH);
+    setSearchResult(null);
+    triggerDebouncedPreview(pixelWidth, newH, format, quality, fitMode, fillColor);
+  };
+
+  const handleSwapDimensionsOrientation = () => {
+    const newW = pixelHeight;
+    const newH = pixelWidth;
+    setPixelWidth(newW);
+    setPixelHeight(newH);
+    if (newH > 0) {
+      setAspectRatio(newW / newH);
+    }
+    setSearchResult(null);
+    triggerDebouncedPreview(newW, newH, format, quality, fitMode, fillColor);
+  };
+
   const handleFormatChange = (newFmt) => {
     setFormat(newFmt);
     setSearchResult(null);
@@ -707,8 +734,8 @@ export default function App() {
     setLockAspectRatio(true);
     setUnit(settings.defaultUnit || 'cm');
     setDpi(settings.defaultDpi || 72);
-    setFormat(settings.defaultFormat || 'image/webp');
-    setQuality(settings.defaultQuality || 0.85);
+    setFormat(settings.defaultFormat || 'image/jpeg');
+    setQuality(settings.defaultQuality ?? 0.90);
     setFitMode('contain');
     setFillColor('#FFFFFF');
 
@@ -724,8 +751,8 @@ export default function App() {
       rot: 0,
       w: originalMeta.width,
       h: originalMeta.height,
-      fmt: settings.defaultFormat || 'image/webp',
-      q: settings.defaultQuality || 0.85,
+      fmt: settings.defaultFormat || 'image/jpeg',
+      q: settings.defaultQuality ?? 0.90,
       fMode: 'contain',
       fColor: '#FFFFFF',
     });
@@ -738,8 +765,8 @@ export default function App() {
       pixelHeight: originalMeta.height,
       unit: settings.defaultUnit || 'cm',
       dpi: settings.defaultDpi || 72,
-      format: settings.defaultFormat || 'image/webp',
-      quality: settings.defaultQuality || 0.85,
+      format: settings.defaultFormat || 'image/jpeg',
+      quality: settings.defaultQuality ?? 0.90,
       fitMode: 'contain',
       fillColor: '#FFFFFF',
     });
@@ -854,7 +881,7 @@ export default function App() {
   };
 
   return (
-    <div className={`flex flex-col h-screen w-screen overflow-hidden bg-base text-txt font-sans select-none ${theme}`}>
+    <div className="flex flex-col h-screen w-screen overflow-hidden bg-base text-txt font-sans select-none">
       {/* Hidden file picker input */}
       <input
         ref={fileInputRef}
@@ -879,6 +906,9 @@ export default function App() {
         canUndo={historyIndex > 0}
         canRedo={historyIndex < history.length - 1}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        isHistoryOpen={!isHistoryCollapsed}
+        onToggleHistory={() => setIsHistoryCollapsed((p) => !p)}
+        historyCount={history.length}
       />
 
       {/* Main workspace layout */}
@@ -899,12 +929,14 @@ export default function App() {
           {/* Centered Image Canvas */}
           <Workspace
             previewUrl={previewUrl}
+            originalUrl={imgElement?.src}
             dimensions={displayDimensions}
             previewSize={previewSize}
             originalMeta={originalMeta}
             isProcessing={isProcessing}
             onFileDrop={handleLoadImage}
             onOpenClick={() => fileInputRef.current?.click()}
+            onSelectSample={handleSelectSample}
             // Crop & Perspective
             isCropActive={isCropActive}
             setIsCropActive={setIsCropActive}
@@ -913,17 +945,18 @@ export default function App() {
             appliedCrop={crop}
             onApplyCrop={handleApplyRectCrop}
             onCancelCrop={() => setIsCropActive(false)}
-            onResetCrop={handleResetCrop}
             appliedPerspectiveQuad={perspectiveQuad}
-            onApplyPerspective={handleApplyPerspectiveQuad}
-            onResetPerspective={handleResetPerspective}
+            onApplyPerspectiveQuad={handleApplyPerspectiveQuad}
+            aspectRatio={aspectRatio}
+            lockAspectRatio={lockAspectRatio}
+            onSwapCropOrientation={handleSwapDimensionsOrientation}
             // Rotation
             isRotateActive={isRotateActive}
             setIsRotateActive={setIsRotateActive}
             rotationAngle={rotationAngle}
-            onRotationCommit={handleRotationCommit}
+            onRotateCommit={handleRotationCommit}
             onRotateStep={handleRotateStep}
-            onResetRotation={handleResetRotation}
+            onRotateCancel={handleResetRotation}
           />
 
           {/* Right Control Panel */}
@@ -936,6 +969,9 @@ export default function App() {
             onDpiChange={handleDpiChange}
             lockAspectRatio={lockAspectRatio}
             onToggleLockAspectRatio={handleToggleLock}
+            aspectRatio={aspectRatio}
+            onAspectRatioChange={handleAspectRatioChange}
+            onSwapOrientation={handleSwapDimensionsOrientation}
             format={format}
             onFormatChange={handleFormatChange}
             quality={quality}
@@ -971,8 +1007,6 @@ export default function App() {
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
-        currentThemeId={theme}
-        onSelectTheme={setTheme}
         settings={settings}
         onUpdateSettings={handleUpdateSettings}
         onResetSettings={handleResetSettings}

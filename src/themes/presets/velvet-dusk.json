@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "id": "velvet-dusk",
+    "name": "Velvet Dusk",
+    "category": "dark",
+    "styleTag": "Ultra-Rounded",
+    "description": "Ultra-rounded dark aesthetic with deep aubergine, golden amber, and soft tactile curves.",
+    "previewSwatches": ["#0F0B15", "#191424", "#F59E0B", "#F4F5F7"]
+  },
+  "colors": {
+    "bgBase": "#0F0B15",
+    "bgSurface": "#191424",
+    "bgElevated": "#231C32",
+    "bgOverlay": "rgba(15, 11, 21, 0.88)",
+    "bgCanvas": "#0A070E",
+    "checkerLight": "#191424",
+    "checkerDark": "#0F0B15",
+    "textPrimary": "#F4F5F7",
+    "textSecondary": "#CBD2DF",
+    "textMuted": "#98A2B3",
+    "textInverse": "#09090B",
+    "borderSubtle": "#2E2442",
+    "borderStrong": "#453761",
+    "borderFocus": "#F59E0B",
+    "accentPrimary": "#F59E0B",
+    "accentHover": "#D97706",
+    "accentMuted": "rgba(245, 158, 11, 0.18)",
+    "accentForeground": "#09090B",
+    "success": "#10B981",
+    "warning": "#F59E0B",
+    "danger": "#EF4444",
+    "info": "#8B5CF6"
+  },
+  "typography": {
+    "fontTitle": "\"Space Grotesk\", \"Open Sans\", sans-serif",
+    "fontHeading": "\"Plus Jakarta Sans\", \"Open Sans\", sans-serif",
+    "fontUi": "\"Open Sans\", system-ui, -apple-system, sans-serif",
+    "fontMono": "\"JetBrains Mono\", Menlo, Monaco, monospace",
+    "googleFontsUrl": "",
+    "titleTracking": "-0.02em",
+    "headingTracking": "-0.01em",
+    "headingTransform": "none",
+    "uiWeightNormal": "400",
+    "uiWeightMedium": "500",
+    "uiWeightBold": "700"
+  },
+  "geometry": {
+    "radiusApp": "22px",
+    "radiusPanel": "20px",
+    "radiusControl": "13px",
+    "radiusInput": "10px",
+    "radiusPill": "9999px",
+    "borderWidth": "1px",
+    "focusRingWidth": "2px"
+  },
+  "effects": {
+    "shadowPanel": "0 6px 24px -2px rgba(0, 0, 0, 0.60)",
+    "shadowFloating": "0 14px 40px -4px rgba(0, 0, 0, 0.75)",
+    "glassBlur": "12px",
+    "surfaceOpacity": 0.90,
+    "transitionDuration": "150ms",
+    "surfaceStyle": "bordered"
+  }
+}

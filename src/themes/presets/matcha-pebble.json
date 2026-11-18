@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "id": "matcha-pebble",
+    "name": "Matcha Pebble",
+    "category": "light",
+    "styleTag": "Ultra-Rounded",
+    "description": "Ultra-smooth rounded organic aesthetic with soothing Japanese matcha and warm cream clay.",
+    "previewSwatches": ["#F3F5F0", "#FCFDFB", "#2D6A4F", "#111827"]
+  },
+  "colors": {
+    "bgBase": "#F3F5F0",
+    "bgSurface": "#FCFDFB",
+    "bgElevated": "#E8ECE3",
+    "bgOverlay": "rgba(243, 245, 240, 0.88)",
+    "bgCanvas": "#E2E8DC",
+    "checkerLight": "#FCFDFB",
+    "checkerDark": "#E8ECE3",
+    "textPrimary": "#111827",
+    "textSecondary": "#374151",
+    "textMuted": "#4B5563",
+    "textInverse": "#FFFFFF",
+    "borderSubtle": "#CBD6C5",
+    "borderStrong": "#AAB9A1",
+    "borderFocus": "#2D6A4F",
+    "accentPrimary": "#2D6A4F",
+    "accentHover": "#1B4332",
+    "accentMuted": "rgba(45, 106, 79, 0.15)",
+    "accentForeground": "#FFFFFF",
+    "success": "#2D6A4F",
+    "warning": "#D97706",
+    "danger": "#C53030",
+    "info": "#2B6CB0"
+  },
+  "typography": {
+    "fontTitle": "\"Space Grotesk\", \"Open Sans\", sans-serif",
+    "fontHeading": "\"Plus Jakarta Sans\", \"Open Sans\", sans-serif",
+    "fontUi": "\"Open Sans\", system-ui, -apple-system, sans-serif",
+    "fontMono": "\"JetBrains Mono\", Menlo, Monaco, monospace",
+    "googleFontsUrl": "",
+    "titleTracking": "-0.02em",
+    "headingTracking": "-0.01em",
+    "headingTransform": "none",
+    "uiWeightNormal": "400",
+    "uiWeightMedium": "500",
+    "uiWeightBold": "700"
+  },
+  "geometry": {
+    "radiusApp": "24px",
+    "radiusPanel": "22px",
+    "radiusControl": "14px",
+    "radiusInput": "12px",
+    "radiusPill": "9999px",
+    "borderWidth": "1px",
+    "focusRingWidth": "2px"
+  },
+  "effects": {
+    "shadowPanel": "0 4px 18px rgba(30, 43, 32, 0.08)",
+    "shadowFloating": "0 12px 32px rgba(30, 43, 32, 0.14)",
+    "glassBlur": "10px",
+    "surfaceOpacity": 0.95,
+    "transitionDuration": "150ms",
+    "surfaceStyle": "bordered"
+  }
+}

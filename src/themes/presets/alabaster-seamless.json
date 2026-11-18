@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "id": "alabaster-seamless",
+    "name": "Alabaster Seamless",
+    "category": "light",
+    "styleTag": "Borderless Tonal",
+    "description": "Seamless borderless gallery light theme with warm off-white tones and subtle depth.",
+    "previewSwatches": ["#F4F4F6", "#FFFFFF", "#2563EB", "#111827"]
+  },
+  "colors": {
+    "bgBase": "#F4F4F6",
+    "bgSurface": "#FFFFFF",
+    "bgElevated": "#EAEBED",
+    "bgOverlay": "rgba(244, 244, 246, 0.90)",
+    "bgCanvas": "#E5E6E9",
+    "checkerLight": "#FFFFFF",
+    "checkerDark": "#EAEBED",
+    "textPrimary": "#111827",
+    "textSecondary": "#374151",
+    "textMuted": "#4B5563",
+    "textInverse": "#FFFFFF",
+    "borderSubtle": "transparent",
+    "borderStrong": "transparent",
+    "borderFocus": "#2563EB",
+    "accentPrimary": "#2563EB",
+    "accentHover": "#1D4ED8",
+    "accentMuted": "rgba(37, 99, 235, 0.12)",
+    "accentForeground": "#FFFFFF",
+    "success": "#059669",
+    "warning": "#D97706",
+    "danger": "#DC2626",
+    "info": "#2563EB"
+  },
+  "typography": {
+    "fontTitle": "\"Space Grotesk\", \"Open Sans\", sans-serif",
+    "fontHeading": "\"Plus Jakarta Sans\", \"Open Sans\", sans-serif",
+    "fontUi": "\"Open Sans\", system-ui, -apple-system, sans-serif",
+    "fontMono": "\"JetBrains Mono\", Menlo, Monaco, monospace",
+    "googleFontsUrl": "",
+    "titleTracking": "-0.025em",
+    "headingTracking": "-0.015em",
+    "headingTransform": "none",
+    "uiWeightNormal": "400",
+    "uiWeightMedium": "500",
+    "uiWeightBold": "700"
+  },
+  "geometry": {
+    "radiusApp": "14px",
+    "radiusPanel": "12px",
+    "radiusControl": "8px",
+    "radiusInput": "6px",
+    "radiusPill": "9999px",
+    "borderWidth": "0px",
+    "focusRingWidth": "2px"
+  },
+  "effects": {
+    "shadowPanel": "0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04)",
+    "shadowFloating": "0 12px 36px -4px rgba(0, 0, 0, 0.12)",
+    "glassBlur": "12px",
+    "surfaceOpacity": 0.96,
+    "transitionDuration": "150ms",
+    "surfaceStyle": "borderless"
+  }
+}

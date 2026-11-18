@@ -6,6 +6,7 @@ export const UNITS = {
   PX: 'px',
   IN: 'in',
   CM: 'cm',
+  MM: 'mm',
 };
 
 export const COMMON_DPI_LIST = [
@@ -26,6 +27,8 @@ export function pxToUnit(px, unit, dpi = 72) {
       return Number((px / safeDpi).toFixed(3));
     case UNITS.CM:
       return Number(((px / safeDpi) * 2.54).toFixed(3));
+    case UNITS.MM:
+      return Number(((px / safeDpi) * 25.4).toFixed(2));
     case UNITS.PX:
     default:
       return Math.round(px);
@@ -43,10 +46,37 @@ export function unitToPx(value, unit, dpi = 72) {
       return Math.max(1, Math.round(value * safeDpi));
     case UNITS.CM:
       return Math.max(1, Math.round((value / 2.54) * safeDpi));
+    case UNITS.MM:
+      return Math.max(1, Math.round((value / 25.4) * safeDpi));
     case UNITS.PX:
     default:
       return Math.max(1, Math.round(value));
   }
+}
+
+/**
+ * Proportional dimension recalculation ensuring no rounding drift or division by zero.
+ */
+export function calculateProportionalDimension(value, ratio, field = 'width') {
+  if (!ratio || isNaN(ratio) || ratio <= 0 || !value || isNaN(value) || value <= 0) {
+    return Math.max(1, Math.round(value || 1));
+  }
+  if (field === 'width') {
+    return Math.max(1, Math.round(value / ratio));
+  } else {
+    return Math.max(1, Math.round(value * ratio));
+  }
+}
+
+/**
+ * Calculates new display value when dimension is edited in specified unit.
+ */
+export function recalculatePairedUnitValue(changedValue, ratio, field, unit, dpi) {
+  if (!ratio || isNaN(ratio) || ratio <= 0) return null;
+  const safeDpi = Math.max(1, dpi || 72);
+  const pxValue = unitToPx(changedValue, unit, safeDpi);
+  const complementaryPx = calculateProportionalDimension(pxValue, ratio, field);
+  return pxToUnit(complementaryPx, unit, safeDpi);
 }
 
 /**
