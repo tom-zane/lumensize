@@ -656,10 +656,13 @@ export default function App() {
 
     if (unit !== 'px') {
       const curDisplayW = pxToUnit(pixelWidth, unit, dpi);
-      const newPxW = unitToPx(curDisplayW, unit, validDpi);
-      const newPxH = lockAspectRatio
+      let newPxW = unitToPx(curDisplayW, unit, validDpi);
+      let newPxH = lockAspectRatio && aspectRatio > 0
         ? Math.max(1, Math.round(newPxW / aspectRatio))
         : unitToPx(pxToUnit(pixelHeight, unit, dpi), unit, validDpi);
+
+      newPxW = Math.min(16384, Math.max(1, newPxW));
+      newPxH = Math.min(16384, Math.max(1, newPxH));
 
       setPixelWidth(newPxW);
       setPixelHeight(newPxH);
